@@ -18,7 +18,28 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+		"paths": {
+			"@/components/*": ["src/components/*"],
+			"@/assets/*": ["src/assets/*"],
+			"@/css/*": ["src/css/*"],
+			"@/features/*": ["src/features/*"],
+			"@/hooks/*": ["src/hooks/*"],
+			"@/utils/*": ["src/utils/*"],
+			"@/lib/*": ["src/lib/*"],
+			"@/router/*": ["src/router/*"],
+			"@/pages/*": ["src/router/pages/*"],
+			"@/helpers/*": ["src/helpers/*"],
+			"@/stores/*": ["src/stores/*"],
+			"@/data/*": ["src/data/*"],
+			"@/theme/*": ["src/theme/*"],
+			"@/layouts/*": ["src/layouts/*"],
+			"@/types/*": ["src/types/*"],
+			"@/api/*": ["src/api/*"],
+			"@/root/*": ["./*"]
+		},
   },
   "include": ["src"]
 }
