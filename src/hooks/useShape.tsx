@@ -12,7 +12,9 @@ export const useShape = (shape: Shapes) => {
     ellipse: getEllipsePoints,
   };
 
-  function getCirclePoints(radius: number = debug.diameter / 2, segments: number = 128): Vector2[] {
+  return shapes[shape];
+
+  function getCirclePoints(radius: number = debug.diameter / 2, segments: number = 256): Vector2[] {
     const points: Vector2[] = [];
     const angleStep = (2 * Math.PI) / segments;
 
@@ -87,6 +89,4 @@ export const useShape = (shape: Shapes) => {
 
     return points;
   }
-
-  return shapes[shape];
 };

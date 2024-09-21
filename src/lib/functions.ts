@@ -1,6 +1,6 @@
 import { ExtrudeGeometry } from "three";
 
-export function seamlessUVs(geometry: ExtrudeGeometry, length: number) {
+export function seamlessUVs(geometry: ExtrudeGeometry, length: number, width: number) {
   const pos = geometry.getAttribute("position"),
     nor = geometry.getAttribute("normal"),
     uvs = geometry.getAttribute("uv");
@@ -32,11 +32,11 @@ export function seamlessUVs(geometry: ExtrudeGeometry, length: number) {
     if (ny >= nx && ny >= nz) {
       if (nyDirection >= 0) {
         x = pos.getX(i);
-        y = pos.getZ(i) + 0.5;
+        y = pos.getZ(i) + width;
       } else {
         // Rotate UV 180 degrees by negating both x and y
         x = pos.getX(i); // Invert the x-axis
-        y = -pos.getZ(i) + 0.5; // Invert the y-axis to achieve 180-degree rotation
+        y = -pos.getZ(i) - width; // Invert the y-axis to achieve 180-degree rotation
       }
     }
 

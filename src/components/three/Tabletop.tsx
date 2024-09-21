@@ -28,7 +28,7 @@ export const Tabletop = () => {
       <extrudeGeometry
         args={[geometry, { bevelEnabled: false, depth: 0.5 }]}
         onUpdate={(geometry) => {
-          seamlessUVs(geometry, debug.length * 0.5);
+          seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
         }}
       />
       <meshStandardMaterial wireframe={debug.wireframe} map={map} />
