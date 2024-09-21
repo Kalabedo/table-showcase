@@ -22,6 +22,7 @@
 
     "baseUrl": ".",
 		"paths": {
+			"@/shaders/*": ["src/shaders/*"],
 			"@/components/*": ["src/components/*"],
 			"@/assets/*": ["src/assets/*"],
 			"@/css/*": ["src/css/*"],
