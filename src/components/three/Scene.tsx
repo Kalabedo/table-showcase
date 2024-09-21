@@ -1,10 +1,12 @@
-import { Box, CameraControls } from "@react-three/drei";
+import { CameraControls, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Tabletop } from "./Tabletop";
 
 export const Scene = () => {
   return (
     <Canvas>
-      <Box />
+      <Tabletop />
+      <Environment preset="warehouse" />
       <CameraControls />
     </Canvas>
   );
