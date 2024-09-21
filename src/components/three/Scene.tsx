@@ -6,7 +6,7 @@ export const Scene = () => {
   return (
     <Canvas>
       <Tabletop />
-      <Environment preset="warehouse" />
+      <Environment preset="warehouse" environmentIntensity={0.5} />
       <CameraControls camera-position={[0, 1, 0]} />
     </Canvas>
   );

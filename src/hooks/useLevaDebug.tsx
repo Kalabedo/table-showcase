@@ -14,9 +14,18 @@ export const useLevaDebug = () => {
       max: 3,
       step: 0.1,
     },
+    diameter: {
+      value: 1,
+      min: 0,
+      max: 2,
+      step: 0.1,
+    },
     wireframe: false,
     shapes: {
-      options: ["circle", "rectangle", "oval", "ellipse"],
+      options: ["rectangle", "circle", "oval", "ellipse"],
+    },
+    material: {
+      options: ["debug.jpg", "color.jpg"],
     },
   });
 
