@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useTexture } from "@react-three/drei";
-import { Mesh, RepeatWrapping, Shape } from "three";
+import { Mesh, MeshStandardMaterial, RepeatWrapping, Shape } from "three";
 import { useLevaDebug } from "@/hooks/useLevaDebug";
 import { useMemo, useRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { useShape } from "@/hooks/useShape";
 import { Shapes } from "@/types/types";
 import { seamlessUVs } from "@/lib/functions";
+import ThreeCustomShaderMaterial from "three-custom-shader-material";
+import fragment from "@/shaders/fragment.glsl";
+import vertex from "@/shaders/vertex.glsl";
 
 export const Tabletop = () => {
   const { gl } = useThree();
@@ -23,6 +26,8 @@ export const Tabletop = () => {
     return new Shape(shapingFunction());
   }, [debug]);
 
+  const uniforms = useMemo(() => ({}), []);
+
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
       <extrudeGeometry
@@ -31,7 +36,15 @@ export const Tabletop = () => {
           seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
         }}
       />
-      <meshStandardMaterial wireframe={debug.wireframe} map={map} />
+      <ThreeCustomShaderMaterial
+        baseMaterial={MeshStandardMaterial}
+        silent
+        map={map}
+        vertexShader={vertex}
+        fragmentShader={fragment}
+        uniforms={uniforms}
+      />
+      {/* <meshStandardMaterial wireframe={debug.wireframe} map={map} /> */}
     </mesh>
   );
 };
