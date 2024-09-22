@@ -37,7 +37,7 @@ export const Tabletop = () => {
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
       <extrudeGeometry
-        args={[geometry, { bevelEnabled: false, depth: 0.5, steps: 10 }]}
+        args={[geometry, { bevelEnabled: false, depth: 0.03, steps: 10 }]}
         onUpdate={(geometry) => {
           seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
         }}

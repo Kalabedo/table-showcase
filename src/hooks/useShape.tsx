@@ -31,7 +31,7 @@ export const useShape = (shape: Shapes) => {
   function getRoundedRectPoints(
     length: number = debug.length,
     width: number = debug.width,
-    radius: number = 0.05,
+    radius: number = debug.cornerRadius,
     cornerSegments: number = 128
   ): Vector2[] {
     const points: Vector2[] = [];
