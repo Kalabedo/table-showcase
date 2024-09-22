@@ -32,7 +32,7 @@ export const useShape = (shape: Shapes) => {
     length: number = debug.length,
     width: number = debug.width,
     radius: number = 0.05,
-    cornerSegments: number = 32
+    cornerSegments: number = 128
   ): Vector2[] {
     const points: Vector2[] = [];
 

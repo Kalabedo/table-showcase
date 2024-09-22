@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useTexture } from "@react-three/drei";
-import { Mesh, MeshStandardMaterial, RepeatWrapping, Shape } from "three";
+import { Mesh, MeshStandardMaterial, RepeatWrapping, Shape, Uniform } from "three";
 import { useLevaDebug } from "@/hooks/useLevaDebug";
 import { useMemo, useRef } from "react";
 import { useThree } from "@react-three/fiber";
@@ -26,12 +26,18 @@ export const Tabletop = () => {
     return new Shape(shapingFunction());
   }, [debug]);
 
-  const uniforms = useMemo(() => ({}), []);
+  const uniforms = useMemo(
+    () => ({
+      uLength: new Uniform(debug.length),
+      uWidth: new Uniform(debug.width),
+    }),
+    [debug.length, debug.width]
+  );
 
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
       <extrudeGeometry
-        args={[geometry, { bevelEnabled: false, depth: 0.5 }]}
+        args={[geometry, { bevelEnabled: false, depth: 0.5, steps: 10 }]}
         onUpdate={(geometry) => {
           seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
         }}
@@ -43,6 +49,7 @@ export const Tabletop = () => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
+        wireframe={debug.wireframe}
       />
       {/* <meshStandardMaterial wireframe={debug.wireframe} map={map} /> */}
     </mesh>
