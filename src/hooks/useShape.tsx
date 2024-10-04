@@ -5,6 +5,7 @@ import { useLevaDebug } from "./useLevaDebug";
 export const useShape = (shape: Shapes) => {
   const { debug } = useLevaDebug();
 
+  // SHAPE LIST
   const shapes = {
     circle: getCirclePoints,
     rectangle: getRoundedRectPoints,

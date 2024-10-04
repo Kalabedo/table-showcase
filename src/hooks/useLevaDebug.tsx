@@ -3,7 +3,7 @@ import { useControls } from "leva";
 export const useLevaDebug = () => {
   const debug = useControls("tabletop", {
     length: {
-      value: 1,
+      value: 2,
       min: 0,
       max: 3,
       step: 0.1,

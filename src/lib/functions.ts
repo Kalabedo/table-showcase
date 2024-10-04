@@ -1,3 +1,4 @@
+import { Point, PointOffset } from "@/types/types";
 import { ExtrudeGeometry } from "three";
 
 export function seamlessUVs(geometry: ExtrudeGeometry, length: number, width: number) {
@@ -54,3 +55,39 @@ export function seamlessUVs(geometry: ExtrudeGeometry, length: number, width: nu
     uvs.setXY(i, x, y);
   }
 }
+
+function normalizeVec(p: Point): Point {
+  const len = Math.sqrt(p.x * p.x + p.y * p.y);
+  return { x: p.x / len, y: p.y / len };
+}
+
+export const makeOffsetPoly = (points: Point[], outer_ccw: number = 1): PointOffset[] => {
+  const num_points = points.length;
+  const directionVectors: PointOffset[] = [];
+
+  for (let curr = 0; curr < num_points; curr++) {
+    // Get indices of previous and next points (wrapping around the polygon)
+    const prev = (curr + num_points - 1) % num_points;
+    const next = (curr + 1) % num_points;
+
+    // Calculate vector to next point
+    const vn = { x: points[next].x - points[curr].x, y: points[next].y - points[curr].y };
+    const vnn = normalizeVec(vn);
+    // Calculate normal vector (perpendicular) to vnn
+    const nnn = { x: vnn.y, y: -vnn.x };
+
+    // Calculate vector to previous point
+    const vp = { x: points[curr].x - points[prev].x, y: points[curr].y - points[prev].y };
+    const vpn = normalizeVec(vp);
+    // Calculate normal vector (perpendicular) to vpn, considering direction
+    const npn = { x: vpn.y * outer_ccw, y: -vpn.x * outer_ccw };
+
+    // Calculate bisector vector
+    const bis = { x: (nnn.x + npn.x) * outer_ccw, y: (nnn.y + npn.y) * outer_ccw };
+    const bisn = normalizeVec(bis);
+
+    directionVectors.push({ pos: { x: points[curr].x, y: points[curr].y }, nor: bisn });
+  }
+
+  return directionVectors;
+};
