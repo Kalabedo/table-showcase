@@ -4,6 +4,7 @@ varying vec2 vUv;
 varying vec3 vCustomNormal;
 varying vec3 vPosition;
 varying vec3 vNormals2;
+varying vec2 vNormal2D;
 
 uniform float uLength;
 uniform float uWidth;
@@ -35,11 +36,11 @@ void main(){
   // }
 
   
-  if(vPosition.z >0.01){
-
+  if(vPosition.z < 0.004){
+    // color = vec3(0.,1.,0.);
   }
 
-  diffuseMap.xyz = color;
+  diffuseMap.xyz = normalizedNormals;
 
   csm_DiffuseColor = diffuseMap;
 }

@@ -1,24 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useTexture } from "@react-three/drei";
-import { Mesh, MeshStandardMaterial, RepeatWrapping, Shape, Uniform } from "three";
-import { useLevaDebug } from "@/hooks/useLevaDebug";
-import { useMemo, useRef } from "react";
-import { useThree } from "@react-three/fiber";
+import { BufferAttribute, Mesh, MeshStandardMaterial, Shape, Uniform } from "three";
+import { useEffect, useMemo, useRef } from "react";
 import { useShape } from "@/hooks/useShape";
 import { Shapes } from "@/types/types";
-import { seamlessUVs } from "@/lib/functions";
+import { makeOffsetPoly, seamlessUVs } from "@/lib/functions";
 import ThreeCustomShaderMaterial from "three-custom-shader-material";
 import fragment from "@/shaders/fragment.glsl";
 import vertex from "@/shaders/vertex.glsl";
+import { useLevaDebug } from "@/hooks/useLevaDebug";
+import { useMaterial } from "./useMaterial";
 
 export const Tabletop = () => {
-  const { gl } = useThree();
   const tableRef = useRef<Mesh>(null);
   const { debug } = useLevaDebug();
-  const map = useTexture(debug.material);
-  map.wrapS = map.wrapT = RepeatWrapping;
-  map.anisotropy = gl.capabilities.getMaxAnisotropy();
-  map.flipY = false;
+  const maps = useMaterial();
 
   const shapingFunction = useShape(debug.shapes as Shapes);
 
@@ -30,14 +25,52 @@ export const Tabletop = () => {
     () => ({
       uLength: new Uniform(debug.length),
       uWidth: new Uniform(debug.width),
+      uHeight: new Uniform(0.04),
+      uSteps: new Uniform(10),
     }),
     [debug.length, debug.width]
   );
 
+  // get normal direction for inwards polygon offset
+  useEffect(() => {
+    if (tableRef.current) {
+      const positions = tableRef.current.geometry.attributes.position.array;
+      const uniquePositions = [];
+      const seen = new Set();
+
+      for (let i = 0; i < positions.length; i += 3) {
+        const x = positions[i];
+        const y = positions[i + 1];
+
+        // Create a key combining x and y to track uniqueness
+        const key = `${x},${y}`;
+
+        // Check if the key has already been seen
+        if (!seen.has(key)) {
+          uniquePositions.push({ x, y }); // Push as {x, y} object
+          seen.add(key);
+        }
+      }
+
+      // Now `uniquePositions` contains only unique x, y pairs as {x, y}
+      const offsetData = makeOffsetPoly(uniquePositions);
+      const vertexNormals = new Float32Array(positions.length);
+      for (let i = 0; i < vertexNormals.length; i = i + 3) {
+        const posX = positions[i + 0];
+        const posY = positions[i + 1];
+        const nor = offsetData.find((offset) => offset.pos.x === posX && offset.pos.y === posY)?.nor;
+        vertexNormals[i + 0] = nor!.x;
+        vertexNormals[i + 1] = nor!.y;
+        vertexNormals[i + 2] = 0;
+      }
+      tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
+    }
+  }, [debug.length, debug.width, debug.material]);
+
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
       <extrudeGeometry
-        args={[geometry, { bevelEnabled: false, depth: 0.03, steps: 10 }]}
+        args={[geometry, { bevelEnabled: false, depth: 0.04, steps: 10 }]}
         onUpdate={(geometry) => {
           seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
         }}
@@ -45,7 +78,7 @@ export const Tabletop = () => {
       <ThreeCustomShaderMaterial
         baseMaterial={MeshStandardMaterial}
         silent
-        map={map}
+        {...maps}
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
