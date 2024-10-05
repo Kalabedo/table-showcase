@@ -9,6 +9,7 @@ import fragment from "@/shaders/fragment.glsl";
 import vertex from "@/shaders/vertex.glsl";
 import { useLevaDebug } from "@/hooks/useLevaDebug";
 import { useMaterial } from "./useMaterial";
+import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 export const Tabletop = () => {
   const tableRef = useRef<Mesh>(null);
@@ -34,7 +35,13 @@ export const Tabletop = () => {
   // get normal direction for inwards polygon offset
   useEffect(() => {
     if (tableRef.current) {
+      //calculate tangets to calculate new normals in fragment shader
+      tableRef.current.geometry = mergeVertices(tableRef.current.geometry);
+      tableRef.current.geometry.computeTangents();
+
       const positions = tableRef.current.geometry.attributes.position.array;
+      console.log(tableRef.current.geometry.attributes);
+
       const uniquePositions = [];
       const seen = new Set();
 

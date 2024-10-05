@@ -40,7 +40,7 @@ void main(){
     // color = vec3(0.,1.,0.);
   }
 
-  diffuseMap.xyz = normalizedNormals;
+  diffuseMap.xyz = color;
 
   csm_DiffuseColor = diffuseMap;
 }
