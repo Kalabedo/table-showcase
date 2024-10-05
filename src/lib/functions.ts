@@ -1,7 +1,7 @@
 import { Point, PointOffset } from "@/types/types";
-import { ExtrudeGeometry } from "three";
+import { BufferGeometry } from "three";
 
-export function seamlessUVs(geometry: ExtrudeGeometry, length: number, width: number) {
+export function seamlessUVs(geometry: BufferGeometry, length: number, width: number) {
   const pos = geometry.getAttribute("position"),
     nor = geometry.getAttribute("normal"),
     uvs = geometry.getAttribute("uv");

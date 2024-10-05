@@ -71,17 +71,13 @@ export const Tabletop = () => {
         vertexNormals[i + 2] = 0;
       }
       tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
+      seamlessUVs(tableRef.current.geometry, debug.length * 0.5, debug.width * 0.5);
     }
-  }, [debug.length, debug.width, debug.material]);
+  });
 
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
-      <extrudeGeometry
-        args={[geometry, { bevelEnabled: false, depth: 0.04, steps: 10 }]}
-        onUpdate={(geometry) => {
-          seamlessUVs(geometry, debug.length * 0.5, debug.width * 0.5);
-        }}
-      />
+      <extrudeGeometry args={[geometry, { bevelEnabled: false, depth: 0.04, steps: 10 }]} />
       <ThreeCustomShaderMaterial
         baseMaterial={MeshStandardMaterial}
         silent

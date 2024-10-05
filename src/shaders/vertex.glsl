@@ -51,6 +51,7 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
 
   if(abs(vCustomNormal.x)== 1.){
     vUv.y += topOffset.y;
+    vUv.x -= topOffset.x;
   }
 
   vUv *= 0.35;
