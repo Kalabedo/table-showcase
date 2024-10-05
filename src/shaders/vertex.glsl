@@ -1,4 +1,5 @@
 attribute vec3 normal2D;
+attribute vec4 tangent;
 
 varying vec2 vUv;
 varying vec3 vCustomNormal;
@@ -7,15 +8,18 @@ varying vec2 vNormal2D;
 
 uniform float uHeight;
 uniform float uSteps;
+uniform float uInsetTop;
+uniform float uInsetBottom;
+uniform float uVerticalEdgeThickness;
 
 vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
-  if(position.z > 0.01){
-    return -normal2D.xy * ( 0.01 -position.z);
+  if(position.z > uVerticalEdgeThickness){
+    return -normal2D.xy * ( uVerticalEdgeThickness - position.z) * uInsetBottom;
   }
 
   if(position.z < uHeight / uSteps){
-    return -normal2D.xy * -0.01;
+    return -normal2D.xy * uInsetTop;
   }
 
   return vec2(0.);
@@ -23,10 +27,10 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
 vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     // Calculate the offset based on normal2D
-  vec2 offset = normal2D.xy * (0.01 - position.z);
-  vec2 topOffset = normal2D.xy * -0.01;
+  vec2 offset = normal2D.xy * (uVerticalEdgeThickness - position.z)* uInsetBottom;
+  vec2 topOffset = normal2D.xy * uInsetTop;
 
-  if(position.z > 0.01){
+  if(position.z > uVerticalEdgeThickness){
     if(abs(vCustomNormal.x)== 1.){
       vUv.y -= offset.y;
     }

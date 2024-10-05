@@ -28,12 +28,13 @@ export const Tabletop = () => {
     () => ({
       uLength: new Uniform(store.tableLength),
       uWidth: new Uniform(store.tableWidth),
-      uHeight: new Uniform(0.04),
-      uSteps: new Uniform(10),
+      uHeight: new Uniform(store.tableThickness),
+      uSteps: new Uniform(store.tableSteps),
       uInsetBottom: new Uniform(store.insetBottom),
       uInsetTop: new Uniform(store.insetTop),
+      uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
     }),
-    [store.tableLength, store.tableWidth, store.insetBottom, store.insetTop]
+    [store.tableLength, store.tableWidth, store.insetBottom, store.insetTop, store.tableSteps, store.tableThickness, store.verticalEdgeThickness]
   );
 
   // get normal direction for inwards polygon offset
@@ -81,7 +82,7 @@ export const Tabletop = () => {
 
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
-      <extrudeGeometry args={[geometry, { bevelEnabled: false, depth: 0.04, steps: 10 }]} />
+      <extrudeGeometry args={[geometry, { bevelEnabled: false, depth: store.tableThickness, steps: store.tableSteps }]} />
       <ThreeCustomShaderMaterial
         baseMaterial={MeshStandardMaterial}
         silent

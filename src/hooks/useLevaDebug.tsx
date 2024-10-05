@@ -34,20 +34,45 @@ export const useLevaDebug = () => {
       onChange: (value) => update({ tablecornerRadius: value }),
     },
 
-    insetBottom: {
-      value: 1.5,
+    thickness: {
+      value: 0.04,
       min: 0,
-      max: 2,
-      step: 0.1,
+      max: 1,
+      step: 0.01,
+      onChange: (value) => update({ tableThickness: value }),
+    },
+
+    steps: {
+      value: 40,
+      min: 10,
+      max: 50,
+      step: 1,
+      onChange: (value) => update({ tableSteps: value }),
+    },
+
+    insetBottom: {
+      value: 2,
+      min: 0,
+      max: 4,
+      step: 0.01,
       onChange: (value) => update({ insetBottom: value }),
     },
     insetTop: {
-      value: 0.005,
-      min: 0,
-      max: 0.1,
-      step: 0.001,
+      value: -0.0025,
+      min: -1,
+      max: 0,
+      step: -0.0025,
       onChange: (value) => update({ insetTop: value }),
     },
+
+    verticalEdgeThickness: {
+      value: 0.02,
+      min: 0,
+      max: 0.05,
+      step: 0.001,
+      onChange: (value) => update({ verticalEdgeThickness: value }),
+    },
+
     wireframe: { value: false, onChange: (value) => update({ wireframe: value }) },
     shapes: {
       options: ["rectangle", "circle", "oval", "ellipse"],

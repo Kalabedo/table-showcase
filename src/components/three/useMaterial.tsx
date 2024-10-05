@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { LinearSRGBColorSpace, RepeatWrapping, SRGBColorSpace, Vector2 } from "three";
+import { LinearSRGBColorSpace, RepeatWrapping, SRGBColorSpace } from "three";
 import { useTableStore } from "../../store/Tablestore";
 
 export const useMaterial = () => {
@@ -20,8 +20,6 @@ export const useMaterial = () => {
 
   return {
     map,
-    normalMap,
-    normalScale: new Vector2(0.1, 0.1),
     roughness: 0.3,
   };
 };

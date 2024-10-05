@@ -5,11 +5,14 @@ interface Tablestate {
   tableLength: number;
   tableWidth: number;
   tableDiameter: number;
+  tableThickness: number;
+  tableSteps: number;
   tablecornerRadius: number;
   tableMaterial: string;
   wireframe: boolean;
   insetBottom: number;
   insetTop: number;
+  verticalEdgeThickness: number;
   update: (options: Partial<Tablestate>) => void;
 }
 
@@ -20,8 +23,11 @@ export const useTableStore = create<Tablestate>()((set) => ({
   tableDiameter: 1,
   tablecornerRadius: 0,
   tableMaterial: "color.webp",
+  tableThickness: 0.04,
+  tableSteps: 40,
   wireframe: false,
-  insetBottom: 1.5,
-  insetTop: 0.005,
+  insetBottom: 2,
+  insetTop: -0.0025,
+  verticalEdgeThickness: 0.02,
   update: (options) => set((state) => ({ ...state, ...options })),
 }));
