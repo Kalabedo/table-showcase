@@ -8,7 +8,7 @@ export const Scene = () => {
     <Canvas>
       <Perf position="top-left" />
       <Tabletop />
-      <Environment preset="warehouse" environmentIntensity={0.5} />
+      <Environment files={"/env.exr"} environmentIntensity={0.5} />
       <CameraControls camera-position={[0, 1, 0]} />
     </Canvas>
   );

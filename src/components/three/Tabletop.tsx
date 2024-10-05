@@ -28,8 +28,10 @@ export const Tabletop = () => {
       uWidth: new Uniform(debug.width),
       uHeight: new Uniform(0.04),
       uSteps: new Uniform(10),
+      uInsetBottom: new Uniform(debug.insetBottom),
+      uInsetTop: new Uniform(debug.insetTop),
     }),
-    [debug.length, debug.width]
+    [debug.length, debug.width, debug.insetBottom, debug.insetTop]
   );
 
   // get normal direction for inwards polygon offset
@@ -81,11 +83,46 @@ export const Tabletop = () => {
       <ThreeCustomShaderMaterial
         baseMaterial={MeshStandardMaterial}
         silent
-        {...maps}
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
         wireframe={debug.wireframe}
+        patchMap={{
+          "*": {
+            "#include <normal_fragment_maps>": `#ifdef USE_NORMALMAP_OBJECTSPACE
+
+              normal = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0; // overrides both flatShading and attribute normals
+
+              #ifdef FLIP_SIDED
+
+                normal = - normal;
+
+              #endif
+
+              #ifdef DOUBLE_SIDED
+
+                normal = normal * faceDirection;
+
+              #endif
+
+              normal = normalize( normalMatrix * normal );
+
+            #elif defined( USE_NORMALMAP_TANGENTSPACE )
+
+              vec3 mapN = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0;
+              mapN.xy *= normalScale;
+
+              normal = normalize( tbn * mapN );
+
+            #elif defined( USE_BUMPMAP )
+
+              normal = perturbNormalArb( - vViewPosition, normal, dHdxy_fwd(), faceDirection );
+
+            #endif
+              `,
+          },
+        }}
+        {...maps}
       />
       {/* <meshStandardMaterial wireframe={debug.wireframe} map={map} /> */}
     </mesh>
