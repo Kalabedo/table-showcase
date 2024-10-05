@@ -1,9 +1,9 @@
 import { Shapes } from "@/types/types";
 import { Vector2 } from "three";
-import { useLevaDebug } from "./useLevaDebug";
+import { useTableStore } from "../store/Tablestore";
 
 export const useShape = (shape: Shapes) => {
-  const { debug } = useLevaDebug();
+  const store = useTableStore();
 
   // SHAPE LIST
   const shapes = {
@@ -15,7 +15,7 @@ export const useShape = (shape: Shapes) => {
 
   return shapes[shape];
 
-  function getCirclePoints(radius: number = debug.diameter / 2, segments: number = 256): Vector2[] {
+  function getCirclePoints(radius: number = store.tableDiameter / 2, segments: number = 256): Vector2[] {
     const points: Vector2[] = [];
     const angleStep = (2 * Math.PI) / segments;
 
@@ -30,9 +30,9 @@ export const useShape = (shape: Shapes) => {
   }
 
   function getRoundedRectPoints(
-    length: number = debug.length,
-    width: number = debug.width,
-    radius: number = debug.cornerRadius,
+    length: number = store.tableLength,
+    width: number = store.tableWidth,
+    radius: number = store.tablecornerRadius,
     cornerSegments: number = 128
   ): Vector2[] {
     const points: Vector2[] = [];
@@ -73,7 +73,7 @@ export const useShape = (shape: Shapes) => {
     return points;
   }
 
-  function getOvalPoints(length: number = debug.length, width: number = debug.width): Vector2[] {
+  function getOvalPoints(length: number = store.tableLength, width: number = store.tableWidth): Vector2[] {
     return getRoundedRectPoints(length, width, 2, 64);
   }
 

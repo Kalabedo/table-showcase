@@ -7,31 +7,33 @@ import { makeOffsetPoly, seamlessUVs } from "@/lib/functions";
 import ThreeCustomShaderMaterial from "three-custom-shader-material";
 import fragment from "@/shaders/fragment.glsl";
 import vertex from "@/shaders/vertex.glsl";
-import { useLevaDebug } from "@/hooks/useLevaDebug";
 import { useMaterial } from "./useMaterial";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { useTableStore } from "../../store/Tablestore";
+import { useLevaDebug } from "@/hooks/useLevaDebug";
 
 export const Tabletop = () => {
+  useLevaDebug();
   const tableRef = useRef<Mesh>(null);
-  const { debug } = useLevaDebug();
   const maps = useMaterial();
+  const store = useTableStore();
 
-  const shapingFunction = useShape(debug.shapes as Shapes);
+  const shapingFunction = useShape(store.tableShape as Shapes);
 
   const geometry = useMemo(() => {
     return new Shape(shapingFunction());
-  }, [debug]);
+  }, [store]);
 
   const uniforms = useMemo(
     () => ({
-      uLength: new Uniform(debug.length),
-      uWidth: new Uniform(debug.width),
+      uLength: new Uniform(store.tableLength),
+      uWidth: new Uniform(store.tableWidth),
       uHeight: new Uniform(0.04),
       uSteps: new Uniform(10),
-      uInsetBottom: new Uniform(debug.insetBottom),
-      uInsetTop: new Uniform(debug.insetTop),
+      uInsetBottom: new Uniform(store.insetBottom),
+      uInsetTop: new Uniform(store.insetTop),
     }),
-    [debug.length, debug.width, debug.insetBottom, debug.insetTop]
+    [store.tableLength, store.tableWidth, store.insetBottom, store.insetTop]
   );
 
   // get normal direction for inwards polygon offset
@@ -73,7 +75,7 @@ export const Tabletop = () => {
         vertexNormals[i + 2] = 0;
       }
       tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
-      seamlessUVs(tableRef.current.geometry, debug.length * 0.5, debug.width * 0.5);
+      seamlessUVs(tableRef.current.geometry, store.tableLength * 0.5, store.tableWidth * 0.5);
     }
   });
 
@@ -86,7 +88,7 @@ export const Tabletop = () => {
         vertexShader={vertex}
         fragmentShader={fragment}
         uniforms={uniforms}
-        wireframe={debug.wireframe}
+        wireframe={store.wireframe}
         patchMap={{
           "*": {
             "#include <normal_fragment_maps>": `#ifdef USE_NORMALMAP_OBJECTSPACE

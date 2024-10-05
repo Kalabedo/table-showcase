@@ -1,12 +1,12 @@
-import { useLevaDebug } from "@/hooks/useLevaDebug";
 import { useTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { LinearSRGBColorSpace, RepeatWrapping, SRGBColorSpace, Vector2 } from "three";
+import { useTableStore } from "../../store/Tablestore";
 
 export const useMaterial = () => {
   const { gl } = useThree();
-  const { debug } = useLevaDebug();
-  const map = useTexture(debug.material);
+  const tableMaterial = useTableStore((state) => state.tableMaterial);
+  const map = useTexture(tableMaterial);
   map.wrapS = map.wrapT = RepeatWrapping;
   map.anisotropy = gl.capabilities.getMaxAnisotropy();
   map.colorSpace = SRGBColorSpace;
