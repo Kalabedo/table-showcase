@@ -7,7 +7,7 @@ import { makeOffsetPoly, seamlessUVs } from "@/lib/functions";
 import ThreeCustomShaderMaterial from "three-custom-shader-material";
 import fragment from "@/shaders/fragment.glsl";
 import vertex from "@/shaders/vertex.glsl";
-import { useMaterial } from "./useMaterial";
+import { useMaterial } from "../../hooks/useMaterial";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { useTableStore } from "../../store/Tablestore";
 import { useLevaDebug } from "@/hooks/useLevaDebug";
@@ -55,7 +55,6 @@ export const Tabletop = () => {
       tableRef.current.geometry.computeTangents();
 
       const positions = tableRef.current.geometry.attributes.position.array;
-      console.log(tableRef.current.geometry.attributes);
 
       const uniquePositions = [];
       const seen = new Set();

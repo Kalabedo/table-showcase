@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { LinearSRGBColorSpace, RepeatWrapping, SRGBColorSpace, Vector2 } from "three";
-import { useTableStore } from "../../store/Tablestore";
+import { useTableStore } from "../store/Tablestore";
 
 export const useMaterial = () => {
   const { gl } = useThree();
