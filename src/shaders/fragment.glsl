@@ -8,6 +8,7 @@ varying vec2 vNormal2D;
 
 uniform float uLength;
 uniform float uWidth;
+uniform vec3 uColor;
 
 void main(){
   vec4 diffuseMap = texture2D(map,vUv);
@@ -40,7 +41,7 @@ void main(){
     // color = vec3(0.,1.,0.);
   }
 
-  diffuseMap.xyz = color;
+  diffuseMap.xyz = color * uColor;
 
   csm_DiffuseColor = diffuseMap;
 }

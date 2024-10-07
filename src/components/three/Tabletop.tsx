@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BufferAttribute, Mesh, MeshStandardMaterial, Shape, Uniform } from "three";
+import { BufferAttribute, Color, Mesh, MeshStandardMaterial, Shape, Uniform } from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { useShape } from "@/hooks/useShape";
 import { Shapes } from "@/types/types";
@@ -32,9 +32,19 @@ export const Tabletop = () => {
       uSteps: new Uniform(store.tableSteps),
       uInsetBottom: new Uniform(store.insetBottom),
       uInsetTop: new Uniform(store.insetTop),
+      uColor: new Uniform(new Color(store.tableColor)),
       uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
     }),
-    [store.tableLength, store.tableWidth, store.insetBottom, store.insetTop, store.tableSteps, store.tableThickness, store.verticalEdgeThickness]
+    [
+      store.tableLength,
+      store.tableWidth,
+      store.insetBottom,
+      store.insetTop,
+      store.tableSteps,
+      store.tableThickness,
+      store.verticalEdgeThickness,
+      store.tableColor,
+    ]
   );
 
   // get normal direction for inwards polygon offset

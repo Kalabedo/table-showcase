@@ -1,5 +1,5 @@
 attribute vec3 normal2D;
-attribute vec4 tangent;
+
 
 varying vec2 vUv;
 varying vec3 vCustomNormal;
@@ -57,7 +57,7 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     vUv.x -= topOffset.x;
   }
 
-  vUv *= 0.3;
+  vUv *= 0.5;
 
   return vUv;
 
