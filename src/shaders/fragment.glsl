@@ -9,6 +9,8 @@ varying vec2 vNormal2D;
 uniform float uLength;
 uniform float uWidth;
 uniform vec3 uColor;
+uniform float uHeight;
+uniform float uSteps;
 
 void main(){
   vec4 diffuseMap = texture2D(map,vUv);
@@ -37,11 +39,20 @@ void main(){
   // }
 
   
-  if(vPosition.z < 0.004){
-    // color = vec3(0.,1.,0.);
+  if(vPosition.z < (uHeight / uSteps) *2.){
+      // if(abs(vCustomNormal.x)> 0.){
+      //    color = vec3(0.,0.,0.);
+      // }
+
+       if(abs(vCustomNormal.z)== 1.){
+     }
+
+
+   
   }
 
   diffuseMap.xyz = color * uColor;
+  // diffuseMap.xyz = vCustomNormal;
 
   csm_DiffuseColor = diffuseMap;
 }

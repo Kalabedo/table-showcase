@@ -18,9 +18,9 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
     return -normal2D.xy * ( uVerticalEdgeThickness - position.z) * uInsetBottom;
   }
 
-  if(position.z < uHeight / uSteps){
-    return -normal2D.xy * uInsetTop;
-  }
+  // if(position.z < uHeight / uSteps){
+  //   return -normal2D.xy * uInsetTop;
+  // }
 
   return vec2(0.);
 }
@@ -39,23 +39,23 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     }
   }
 
-  if(position.z < uHeight / uSteps){
-    if(abs(vCustomNormal.z)== 1.){
-      vUv.x -= topOffset.x;
-    }
+  // if(position.z < uHeight / uSteps){
+  //   if(abs(vCustomNormal.z)== 1.){
+  //     vUv.x -= topOffset.x;
+  //   }
 
-    if(abs(vCustomNormal.x)== 1.){
-      vUv.y -= topOffset.y;
-    }
-    if(abs(vCustomNormal.y )== 1.){
-      vUv.x -= topOffset.x;
-    }
-  }
+  //   if(abs(vCustomNormal.x)== 1.){
+  //     vUv.y -= topOffset.y;
+  //   }
+  //   if(abs(vCustomNormal.y )== 1.){
+  //     vUv.x -= topOffset.x;
+  //   }
+  // }
 
-  if(abs(vCustomNormal.x)== 1.){
-    vUv.y += topOffset.y;
-    vUv.x -= topOffset.x;
-  }
+  // if(abs(vCustomNormal.x)== 1.){
+  //   vUv.y += topOffset.y;
+  //   vUv.x -= topOffset.x;
+  // }
 
   vUv *= 0.5;
 

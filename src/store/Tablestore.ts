@@ -16,6 +16,7 @@ interface Tablestate {
   tableRoughness: number;
   tableNormalSCale: number;
   tableColor: string;
+  shift: number;
   update: (options: Partial<Tablestate>) => void;
 }
 
@@ -30,10 +31,11 @@ export const useTableStore = create<Tablestate>()((set) => ({
   tableSteps: 40,
   wireframe: false,
   insetBottom: 2,
-  insetTop: -0.0025,
+  insetTop: -0.005,
   verticalEdgeThickness: 0.02,
   tableRoughness: 0.7,
   tableNormalSCale: 0.3,
   tableColor: "#fff",
+  shift: 0.001,
   update: (options) => set((state) => ({ ...state, ...options })),
 }));

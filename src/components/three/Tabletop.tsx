@@ -32,6 +32,7 @@ export const Tabletop = () => {
       uSteps: new Uniform(store.tableSteps),
       uInsetBottom: new Uniform(store.insetBottom),
       uInsetTop: new Uniform(store.insetTop),
+      uShift: new Uniform(store.shift),
       uColor: new Uniform(new Color(store.tableColor)),
       uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
     }),
@@ -44,6 +45,7 @@ export const Tabletop = () => {
       store.tableThickness,
       store.verticalEdgeThickness,
       store.tableColor,
+      store.shift,
     ]
   );
 

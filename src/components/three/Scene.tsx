@@ -3,10 +3,11 @@ import { Canvas } from "@react-three/fiber";
 import { Tabletop } from "./Tabletop";
 import { Perf } from "r3f-perf";
 import { Lights } from "./Lights";
+import { ACESFilmicToneMapping } from "three";
 
 export const Scene = () => {
   return (
-    <Canvas>
+    <Canvas gl={{ toneMappingExposure: 0.5, toneMapping: ACESFilmicToneMapping }}>
       <Perf position="top-left" />
       <Tabletop />
       <Lights />

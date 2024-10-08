@@ -58,11 +58,19 @@ export const useLevaDebug = () => {
       onChange: (value) => update({ insetBottom: value }),
     },
     insetTop: {
-      value: -0.0025,
+      value: -0.005,
       min: -1,
       max: 0,
       step: -0.0025,
       onChange: (value) => update({ insetTop: value }),
+    },
+
+    shift: {
+      value: -0.00001,
+      min: -0.005,
+      max: 0.005,
+      step: 0.0001,
+      onChange: (value) => update({ shift: value }),
     },
 
     verticalEdgeThickness: {
@@ -79,7 +87,8 @@ export const useLevaDebug = () => {
       onChange: (value) => update({ tableShape: value }),
     },
     material: {
-      options: ["color.webp", "debug.jpg"],
+      options: ["debug.jpg", "color.webp"],
+      // options: ["color.webp", "debug.jpg"],
       onChange: (value) => update({ tableMaterial: value }),
     },
 
