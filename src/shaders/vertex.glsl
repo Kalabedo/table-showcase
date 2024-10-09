@@ -11,11 +11,17 @@ uniform float uSteps;
 uniform float uInsetTop;
 uniform float uInsetBottom;
 uniform float uVerticalEdgeThickness;
+uniform float uShift;
 
 vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
   if(position.z > uVerticalEdgeThickness){
     return -normal2D.xy * ( uVerticalEdgeThickness - position.z) * uInsetBottom;
+  }
+
+  float start = (uHeight / uSteps) *2.;
+  if(position.z < start){
+     return normal2D.xy  *(start - position.z) * 3.;
   }
 
   // if(position.z < uHeight / uSteps){
@@ -28,7 +34,9 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     // Calculate the offset based on normal2D
   vec2 offset = normal2D.xy * (uVerticalEdgeThickness - position.z)* uInsetBottom;
-  vec2 topOffset = normal2D.xy * uInsetTop;
+  float start = (uHeight / uSteps) *2.;
+  vec2 topOffset = normal2D.xy  *(start - position.z) * 3.;
+
 
   if(position.z > uVerticalEdgeThickness){
     if(abs(vCustomNormal.x)== 1.){
@@ -38,6 +46,23 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
       vUv.x -= offset.x;
     }
   }
+
+  if(position.z < start){
+    if(abs(vCustomNormal.x) > 0.){
+      vUv.y += topOffset.y;
+      vUv.x += topOffset.x;
+    }
+    if(abs(vCustomNormal.y )> 0.){
+      vUv.x += topOffset.x;
+      vUv.y += topOffset.y;
+    }
+
+    if(abs(vCustomNormal.z) == 1.){
+      vUv += topOffset;   
+    }
+  }
+
+
 
   // if(position.z < uHeight / uSteps){
   //   if(abs(vCustomNormal.z)== 1.){
@@ -71,7 +96,7 @@ void main(){
 
   //new computed normals using neighbours technique
   vec3 biTangent = cross(normal, tangent.xyz);
-  float shift = 0.00001;
+  float shift = uShift;
     // Adjust shift based on the sign of the normal's x or y component
   if (normal.x < 0.0 || normal.y > 0.0) {
     shift = -shift;

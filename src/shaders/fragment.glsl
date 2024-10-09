@@ -39,17 +39,9 @@ void main(){
   // }
 
   
-  if(vPosition.z < (uHeight / uSteps) *2.){
-      // if(abs(vCustomNormal.x)> 0.){
-      //    color = vec3(0.,0.,0.);
-      // }
-
-       if(abs(vCustomNormal.z)== 1.){
-    }
-
-
-   
-  }
+  // if(vPosition.z < (uHeight / uSteps) *3.){
+  //        color = vec3(0.,0.,0.);
+  // }
 
   diffuseMap.xyz = color * uColor;
   // diffuseMap.xyz = vCustomNormal;
