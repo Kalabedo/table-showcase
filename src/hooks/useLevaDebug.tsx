@@ -92,6 +92,12 @@ export const useLevaDebug = () => {
       onChange: (value) => update({ tableMaterial: value }),
     },
 
+    currentEdge: {
+      // options: ["debug.jpg", "color.webp"],
+      options: [0, 1, 2],
+      onChange: (value) => update({ previousEdge: useTableStore.getState().currentEdge, currentEdge: value }),
+    },
+
     roughness: {
       value: 0.5,
       min: 0,

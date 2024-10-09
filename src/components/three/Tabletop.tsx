@@ -34,6 +34,8 @@ export const Tabletop = () => {
       uInsetTop: new Uniform(store.insetTop),
       uShift: new Uniform(store.shift),
       uColor: new Uniform(new Color(store.tableColor)),
+      uCurrentEdge: new Uniform(store.currentEdge),
+      uPreviousEdge: new Uniform(store.previousEdge),
       uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
     }),
     [
@@ -46,6 +48,8 @@ export const Tabletop = () => {
       store.verticalEdgeThickness,
       store.tableColor,
       store.shift,
+      store.currentEdge,
+      store.previousEdge,
     ]
   );
 
