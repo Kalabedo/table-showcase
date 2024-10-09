@@ -87,13 +87,13 @@ export const useLevaDebug = () => {
       onChange: (value) => update({ tableShape: value }),
     },
     material: {
-      options: ["debug.jpg", "color.webp"],
-      // options: ["color.webp", "debug.jpg"],
+      // options: ["debug.jpg", "color.webp"],
+      options: ["color2.jpg", "debug.jpg"],
       onChange: (value) => update({ tableMaterial: value }),
     },
 
     roughness: {
-      value: 0.7,
+      value: 0.5,
       min: 0,
       max: 1,
       step: 0.01,
@@ -108,7 +108,7 @@ export const useLevaDebug = () => {
     },
 
     color: {
-      value: "#fff",
+      value: "#ffd0a4",
       onChange: (value) => update({ tableColor: value }),
     },
   });

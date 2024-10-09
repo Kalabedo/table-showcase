@@ -15,7 +15,7 @@ export const useMaterial = () => {
   map.colorSpace = SRGBColorSpace;
   map.flipY = false;
 
-  const normalMap = useTexture("/normal.webp");
+  const normalMap = useTexture("/normal.png");
   normalMap.wrapS = normalMap.wrapT = RepeatWrapping;
   normalMap.anisotropy = gl.capabilities.getMaxAnisotropy();
   normalMap.colorSpace = LinearSRGBColorSpace;
@@ -24,7 +24,7 @@ export const useMaterial = () => {
   return {
     map,
     normalMap,
-    normalScale: new Vector2(normalScale),
+    normalScale: new Vector2(normalScale, normalScale),
     metalness: 0,
     roughness,
     color,

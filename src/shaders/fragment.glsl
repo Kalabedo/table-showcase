@@ -45,7 +45,7 @@ void main(){
       // }
 
        if(abs(vCustomNormal.z)== 1.){
-     }
+    }
 
 
    

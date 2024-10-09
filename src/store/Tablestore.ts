@@ -26,7 +26,7 @@ export const useTableStore = create<Tablestate>()((set) => ({
   tableWidth: 1,
   tableDiameter: 1,
   tablecornerRadius: 0,
-  tableMaterial: "color.webp",
+  tableMaterial: "color2.jpg",
   tableThickness: 0.04,
   tableSteps: 40,
   wireframe: false,
