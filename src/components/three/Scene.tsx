@@ -7,7 +7,7 @@ import { ACESFilmicToneMapping } from "three";
 
 export const Scene = () => {
   return (
-    <Canvas gl={{ toneMappingExposure: 1, toneMapping: ACESFilmicToneMapping }}>
+    <Canvas gl={{ toneMappingExposure: 1.5, toneMapping: ACESFilmicToneMapping }}>
       <Perf position="top-left" />
       <Tabletop />
       <Lights />

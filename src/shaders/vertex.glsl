@@ -1,4 +1,5 @@
 attribute vec3 normal2D;
+attribute vec3 tangent;
 
 
 varying vec2 vUv;

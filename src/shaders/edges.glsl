@@ -80,7 +80,7 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     }
   }
 
-  vUv *= 0.5;
+  vUv *= 0.35;
 
   return vUv;
 

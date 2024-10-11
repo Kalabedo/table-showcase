@@ -15,15 +15,20 @@ export const useMaterial = () => {
   map.colorSpace = SRGBColorSpace;
   map.flipY = false;
 
-  const normalMap = useTexture("/normal.png");
-  normalMap.wrapS = normalMap.wrapT = RepeatWrapping;
-  normalMap.anisotropy = gl.capabilities.getMaxAnisotropy();
-  normalMap.colorSpace = LinearSRGBColorSpace;
-  normalMap.flipY = false;
+  // const normalMap = useTexture("/normal.png");
+  // normalMap.wrapS = normalMap.wrapT = RepeatWrapping;
+  // normalMap.anisotropy = gl.capabilities.getMaxAnisotropy();
+  // normalMap.colorSpace = LinearSRGBColorSpace;
+  // normalMap.flipY = false;
+
+  const roughnessMap = useTexture("/r2.png");
+  roughnessMap.wrapS = roughnessMap.wrapT = RepeatWrapping;
+  roughnessMap.anisotropy = gl.capabilities.getMaxAnisotropy();
+  roughnessMap.colorSpace = LinearSRGBColorSpace;
+  roughnessMap.flipY = false;
 
   return {
     map,
-    normalMap,
     normalScale: new Vector2(normalScale, normalScale),
     metalness: 0,
     roughness,
