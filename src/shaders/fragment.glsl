@@ -24,19 +24,19 @@ void main(){
 
   // Check if the normal indicates it's part of a rounded corner
   // This checks for normals that point in a direction that would correspond to rounded geometry
-  // if (abs(normalizedNormals.x) <0.7 && normalizedNormals.z == 0. && abs(normalizedNormals.y) < 0.99) {
-  //     float percentage =abs(dot(normalizedNormals,vec3(1.,0.,0.)));
-  //     percentage = smoothstep(0.,0.99,percentage);
-  //     // percentage = remap(percentage, -1.,1.,0.,1.);
+  if (abs(normalizedNormals.x) <0.7 && normalizedNormals.z == 0. && abs(normalizedNormals.y) < 0.99) {
+      float percentage =abs(dot(normalizedNormals,vec3(1.,0.,0.)));
+      percentage = smoothstep(0.,0.99,percentage);
+      // percentage = remap(percentage, -1.,1.,0.,1.);
 
-  //     vec2 offsetUv = vec2(vUv.y, -vUv.x);
+      vec2 offsetUv = vec2(vUv.y, -vUv.x);
       
-  //     // Sample the texture at the offset UV coordinates
-  //     vec4 offsetDiffuseMap = texture2D(map, offsetUv);
+      // Sample the texture at the offset UV coordinates
+      vec4 offsetDiffuseMap = texture2D(map, offsetUv);
 
-  //     // Use the color from the offset sample for the rounded edges
-  //     color = mix(color,offsetDiffuseMap.xyz,percentage);
-  // }
+      // Use the color from the offset sample for the rounded edges
+      color = mix(color,offsetDiffuseMap.xyz,percentage);
+  }
 
   
   // if(vPosition.z < (uHeight / uSteps) *3.){

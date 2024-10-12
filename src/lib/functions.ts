@@ -91,3 +91,42 @@ export const makeOffsetPoly = (points: Point[], outer_ccw: number = 1): PointOff
 
   return directionVectors;
 };
+
+// Function to find the nearest index
+export function findNearestIndex(thisPoint: Point, points: Point[]): number {
+  let nearestDistSquared = Infinity;
+  let nearestIndex = -1;
+
+  for (let i = 0; i < points.length; i++) {
+    const point2 = points[i];
+    const distSquared = (thisPoint.x - point2.x) ** 2 + (thisPoint.y - point2.y) ** 2;
+
+    if (distSquared < nearestDistSquared) {
+      nearestDistSquared = distSquared;
+      nearestIndex = i;
+    }
+  }
+
+  return nearestIndex;
+}
+
+// Function to sort points in sequence by proximity
+export function orderPointsByProximity(points: Point[]): Point[] {
+  const orderedList: Point[] = [];
+
+  // Arbitrary starting point, remove the first point from the original list
+  orderedList.push(points.shift()!);
+
+  // While there are still points to order
+  while (points.length > 0) {
+    const lastPoint = orderedList[orderedList.length - 1];
+
+    // Find the index of the closest point to the last point
+    const nearestIndex = findNearestIndex(lastPoint, points);
+
+    // Remove the nearest point from the list and add it to the ordered list
+    orderedList.push(points.splice(nearestIndex, 1)[0]);
+  }
+
+  return orderedList;
+}

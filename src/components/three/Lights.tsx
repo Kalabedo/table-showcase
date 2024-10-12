@@ -1,5 +1,5 @@
 import { Environment, Helper } from "@react-three/drei";
-import { PointLightHelper, SpotLightHelper } from "three";
+import { PointLightHelper } from "three";
 
 export const Lights = () => {
   return (

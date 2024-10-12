@@ -11,6 +11,7 @@ export const Scene = () => {
       <Perf position="top-left" />
       <Tabletop />
       <Lights />
+      {/* <Cubes /> */}
       <CameraControls camera-position={[0, 1, 0]} />
     </Canvas>
   );

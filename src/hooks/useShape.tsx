@@ -15,7 +15,7 @@ export const useShape = (shape: Shapes) => {
 
   return shapes[shape];
 
-  function getCirclePoints(radius: number = store.tableDiameter / 2, segments: number = 256): Vector2[] {
+  function getCirclePoints(radius: number = store.tableDiameter / 2, segments: number = 128): Vector2[] {
     const points: Vector2[] = [];
     const angleStep = (2 * Math.PI) / segments;
 
@@ -74,7 +74,7 @@ export const useShape = (shape: Shapes) => {
   }
 
   function getOvalPoints(length: number = store.tableLength, width: number = store.tableWidth): Vector2[] {
-    return getRoundedRectPoints(length, width, 2, 64);
+    return getRoundedRectPoints(length, width, 2, 32);
   }
 
   function getEllipsePoints(majorAxis: number = 2, minorAxis: number = 1, segments: number = 256): Vector2[] {

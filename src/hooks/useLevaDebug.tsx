@@ -83,7 +83,7 @@ export const useLevaDebug = () => {
 
     wireframe: { value: false, onChange: (value) => update({ wireframe: value }) },
     shapes: {
-      options: ["rectangle", "circle", "oval", "ellipse"],
+      options: ["circle", "oval", "rectangle", "ellipse"],
       onChange: (value) => update({ tableShape: value }),
     },
     material: {
@@ -116,6 +116,14 @@ export const useLevaDebug = () => {
     color: {
       value: "#ffcb94",
       onChange: (value) => update({ tableColor: value }),
+    },
+
+    selectedCube: {
+      value: 0,
+      step: 1,
+      min: 0,
+      max: 30,
+      onChange: (value) => update({ selectedCube: value }),
     },
   });
 };

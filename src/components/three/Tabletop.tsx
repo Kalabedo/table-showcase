@@ -2,8 +2,8 @@
 import { BufferAttribute, Color, Mesh, MeshStandardMaterial, Shape, Uniform } from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { useShape } from "@/hooks/useShape";
-import { Shapes } from "@/types/types";
-import { makeOffsetPoly, seamlessUVs } from "@/lib/functions";
+import { PointOffset, Shapes } from "@/types/types";
+import { makeOffsetPoly, orderPointsByProximity, seamlessUVs } from "@/lib/functions";
 import ThreeCustomShaderMaterial from "three-custom-shader-material";
 import fragment from "@/shaders/fragment.glsl";
 import vertex from "@/shaders/vertex.glsl";
@@ -19,6 +19,8 @@ export const Tabletop = () => {
   const store = useTableStore();
 
   const shapingFunction = useShape(store.tableShape as Shapes);
+
+  const cubes = useRef<PointOffset[]>([]);
 
   const geometry = useMemo(() => {
     return new Shape(shapingFunction());
@@ -80,55 +82,70 @@ export const Tabletop = () => {
       }
 
       // Now `uniquePositions` contains only unique x, y pairs as {x, y}
-      const offsetData = makeOffsetPoly(uniquePositions);
+      const sortedUnqiuePoints = orderPointsByProximity(uniquePositions);
+      const offsetData = makeOffsetPoly(sortedUnqiuePoints);
       const vertexNormals = new Float32Array(positions.length);
       for (let i = 0; i < vertexNormals.length; i = i + 3) {
         const posX = positions[i + 0];
         const posY = positions[i + 1];
         const nor = offsetData.find((offset) => offset.pos.x === posX && offset.pos.y === posY)?.nor;
-        vertexNormals[i + 0] = nor!.x;
-        vertexNormals[i + 1] = nor!.y;
+        vertexNormals[i + 0] = store.tableShape === "rectangle" ? -nor!.x : nor!.x;
+        vertexNormals[i + 1] = store.tableShape === "rectangle" ? -nor!.y : nor!.y;
         vertexNormals[i + 2] = 0;
       }
       tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
+      cubes.current = offsetData;
+      console.log(uniquePositions, offsetData);
       seamlessUVs(tableRef.current.geometry, store.tableLength * 0.5, store.tableWidth * 0.5);
     }
   });
 
   return (
-    <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
-      <extrudeGeometry args={[geometry, { bevelEnabled: false, depth: store.tableThickness, steps: store.tableSteps }]} />
-      <ThreeCustomShaderMaterial
-        baseMaterial={MeshStandardMaterial}
-        silent
-        vertexShader={vertex}
-        fragmentShader={fragment}
-        uniforms={uniforms}
-        wireframe={store.wireframe}
-        patchMap={{
-          "*": {
-            "#include <normal_fragment_maps>": `#ifdef USE_NORMALMAP_OBJECTSPACE
-                normal = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0; // overrides both flatShading and attribute normals
-                #ifdef FLIP_SIDED
-                  normal = - normal;
-                #endif
-                #ifdef DOUBLE_SIDED
-                  normal = normal * faceDirection;
-                #endif
-                normal = normalize( normalMatrix * normal );
-              #elif defined( USE_NORMALMAP_TANGENTSPACE )
-                vec3 mapN = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0;
-                mapN.xy *= normalScale;
-                normal = normalize( tbn * mapN );
-              #elif defined( USE_BUMPMAP )
-                normal = perturbNormalArb( - vViewPosition, normal, dHdxy_fwd(), faceDirection );
-              #endif
-              `,
-          },
-        }}
-        {...maps}
-      />
-      {/* <meshStandardMaterial wireframe={debug.wireframe} map={map} /> */}
-    </mesh>
+    <>
+      {/* {cubes.current &&
+        cubes.current.map((x, key) => (
+          <Box
+            material-color={key === store.selectedCube ? "#f00" : "#fff"}
+            key={key}
+            position={[x.pos.x, 0.1, x.pos.y]}
+            rotation-y={Math.atan2(x.nor.x, x.nor.y)}
+            scale={new Vector3(0.005, 0.05, 0.05)}
+          />
+        ))} */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} ref={tableRef}>
+        <extrudeGeometry args={[geometry, { bevelEnabled: false, depth: store.tableThickness, steps: store.tableSteps }]} />
+        <ThreeCustomShaderMaterial
+          baseMaterial={MeshStandardMaterial}
+          silent
+          vertexShader={vertex}
+          fragmentShader={fragment}
+          uniforms={uniforms}
+          wireframe={store.wireframe}
+          patchMap={{
+            "*": {
+              "#include <normal_fragment_maps>": `#ifdef USE_NORMALMAP_OBJECTSPACE
+            normal = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0; // overrides both flatShading and attribute normals
+            #ifdef FLIP_SIDED
+            normal = - normal;
+            #endif
+            #ifdef DOUBLE_SIDED
+            normal = normal * faceDirection;
+            #endif
+            normal = normalize( normalMatrix * normal );
+            #elif defined( USE_NORMALMAP_TANGENTSPACE )
+            vec3 mapN = texture2D( normalMap, vUv ).xyz * 2.0 - 1.0;
+            mapN.xy *= normalScale;
+            normal = normalize( tbn * mapN );
+            #elif defined( USE_BUMPMAP )
+            normal = perturbNormalArb( - vViewPosition, normal, dHdxy_fwd(), faceDirection );
+            #endif
+            `,
+            },
+          }}
+          {...maps}
+        />
+        {/* <meshStandardMaterial wireframe={debug.wireframe} map={map} /> */}
+      </mesh>
+    </>
   );
 };
