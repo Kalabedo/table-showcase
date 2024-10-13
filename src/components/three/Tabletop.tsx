@@ -95,7 +95,6 @@ export const Tabletop = () => {
       }
       tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
       cubes.current = offsetData;
-      console.log(uniquePositions, offsetData);
       seamlessUVs(tableRef.current.geometry, store.tableLength * 0.5, store.tableWidth * 0.5);
     }
   });

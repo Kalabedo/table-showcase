@@ -25,7 +25,7 @@ interface Tablestate {
 }
 
 export const useTableStore = create<Tablestate>()((set) => ({
-  tableShape: "circle",
+  tableShape: "oval",
   tableLength: 2,
   tableWidth: 1,
   tableDiameter: 1,

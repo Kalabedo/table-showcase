@@ -21,7 +21,7 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
   // top edge bevel
   if(position.z < start){
-     return normal2D.xy  *(start - position.z) * 3.;
+     return normal2D.xy  *(start - position.z) / 2.;
   }
 
 
@@ -32,7 +32,7 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     // Calculate the offset based on normal2D
   float start = (uHeight / uSteps) *2.;
   vec2 offset = normal2D.xy * (uVerticalEdgeThickness - position.z)* uInsetBottom;
-  vec2 topOffset = normal2D.xy  *(start - position.z) * 3.;
+  vec2 topOffset = normal2D.xy  *(start - position.z) / 2.;
   vec2 offset2=  normal2D.xy * (start - position.z);
 
 

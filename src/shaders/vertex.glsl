@@ -25,8 +25,8 @@ void main(){
   //new computed normals using neighbours technique
   vec3 biTangent = cross(normal, tangent.xyz);
   float shift = uShift;
-    // Adjust shift based on the sign of the normal's x or y component
-  if (normal.x < 0.0 || normal.y > 0.0) {
+  // Adjust shift based on the sign of the normal's x or y component
+  if (normal.x < -0.7 || normal.y > 0.7) {
     shift = -shift;
   }
   vec3 positionA = csm_Position + tangent.xyz * shift;
