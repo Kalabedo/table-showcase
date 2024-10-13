@@ -3,7 +3,7 @@ uniform float uPreviousEdge;
 
 vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
-  float start = (uHeight / uSteps) *2.;
+  float start = (uHeight / uSteps) *3.;
 
   // edge 1 beveled
   if(uCurrentEdge == 1.){
@@ -21,7 +21,7 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
   // top edge bevel
   if(position.z < start){
-     return normal2D.xy  *(start - position.z) / 2.;
+     return normal2D.xy  *(start - position.z);
   }
 
 
@@ -30,9 +30,9 @@ vec2 getOffsetPosition( vec3 position, float uHeight, float uSteps){
 
 vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
     // Calculate the offset based on normal2D
-  float start = (uHeight / uSteps) *2.;
+  float start = (uHeight / uSteps) *3.;
   vec2 offset = normal2D.xy * (uVerticalEdgeThickness - position.z)* uInsetBottom;
-  vec2 topOffset = normal2D.xy  *(start - position.z) / 2.;
+  vec2 topOffset = normal2D.xy  *(start - position.z);
   vec2 offset2=  normal2D.xy * (start - position.z);
 
 
@@ -55,10 +55,10 @@ vec2 alignUVsAfterOffset(vec2 vUv,vec3 vCustomNormal){
   // edge 2 trapese
   if(uCurrentEdge == 2.){
     if(position.z > start){
-      if(abs(vCustomNormal.x) > 0.){
+      if(abs(vCustomNormal.x) > 0.7){
         vUv.y -= offset2.y;
       }
-      if(abs(vCustomNormal.y )> 0.){
+      if(abs(vCustomNormal.y )> 0.7){
         vUv.x -= offset2.x;
       }
     }
