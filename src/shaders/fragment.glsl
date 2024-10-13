@@ -45,12 +45,21 @@ void main(){
   //        color = vec3(0.,0.,0.);
   // }
 
+// Center of the UV space (normalized between 0 and 1)
+  float normalizedPosX = (vPosition.x + uLength/2.) / uLength; 
+  float normalizedPosY = (vPosition.y + uWidth/2.) / uWidth; 
+  normalizedPosX = remap(normalizedPosX,0.,1.,0.5,1.);
+  float transition = 1. - smoothstep(uColorTransition , uColorTransition + 0.5, normalizedPosX + sin(normalizedPosY * 6.) * 0.1);
+
+
+  float circle = distance(vec2(normalizedPosX,normalizedPosY),vec2(0.));
+
   vec3 currentColor = uColor;
   vec3 previousColor = uColorPrevious;
-  vec3 transitionColor = mix(uColorPrevious,uColor,uColorTransition);
+  vec3 transitionColor = mix(uColorPrevious,uColor,transition);
 
   diffuseMap.xyz = color * transitionColor;
-  // diffuseMap.xyz = vCustomNormal;
+  // diffuseMap.xyz = vec3(transition);
 
   csm_DiffuseColor = diffuseMap;
 }

@@ -114,20 +114,11 @@ export const useLevaDebug = () => {
     },
 
     pickColer: {
-      options: ["#ffc494", "#867a6f", "#545c5c"],
+      options: ["#ffc494", "#867a6f", "#545c5c", "#ffefe3", "#737657"],
       onChange: (value) => {
         update({ tableColorPrevious: useTableStore.getState().tableColor, tableColor: value });
       },
     },
-
-    colorTransition: {
-      value: 0,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      onChange: (value) => update({ tabletColorTransition: value }),
-    },
-
     color: {
       value: "#ffc494",
       onChange: (value) => update({ tableColor: value }),
