@@ -77,7 +77,7 @@ export const useShape = (shape: Shapes) => {
     return getRoundedRectPoints(length, width, 2, 32);
   }
 
-  function getEllipsePoints(majorAxis: number = 2, minorAxis: number = 1, segments: number = 256): Vector2[] {
+  function getEllipsePoints(majorAxis: number = store.tableLength, minorAxis: number = store.tableWidth, segments: number = 256): Vector2[] {
     const points: Vector2[] = [];
     const angleStep = (2 * Math.PI) / segments;
 
