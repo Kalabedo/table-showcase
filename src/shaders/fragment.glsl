@@ -9,6 +9,8 @@ varying vec2 vNormal2D;
 uniform float uLength;
 uniform float uWidth;
 uniform vec3 uColor;
+uniform vec3 uColorPrevious;
+uniform float uColorTransition;
 uniform float uHeight;
 uniform float uSteps;
 
@@ -43,7 +45,11 @@ void main(){
   //        color = vec3(0.,0.,0.);
   // }
 
-  diffuseMap.xyz = color * uColor;
+  vec3 currentColor = uColor;
+  vec3 previousColor = uColorPrevious;
+  vec3 transitionColor = mix(uColorPrevious,uColor,uColorTransition);
+
+  diffuseMap.xyz = color * transitionColor;
   // diffuseMap.xyz = vCustomNormal;
 
   csm_DiffuseColor = diffuseMap;

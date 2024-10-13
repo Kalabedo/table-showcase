@@ -11,6 +11,7 @@ import { useMaterial } from "../../hooks/useMaterial";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { useTableStore } from "../../store/Tablestore";
 import { useLevaDebug } from "@/hooks/useLevaDebug";
+import gsap from "gsap";
 
 export const Tabletop = () => {
   useLevaDebug();
@@ -36,24 +37,54 @@ export const Tabletop = () => {
       uInsetTop: new Uniform(store.insetTop),
       uShift: new Uniform(store.shift),
       uColor: new Uniform(new Color(store.tableColor)),
+      uColorPrevious: new Uniform(new Color(store.tableColorPrevious)),
+      uColorTransition: new Uniform(0),
       uCurrentEdge: new Uniform(store.currentEdge),
       uPreviousEdge: new Uniform(store.previousEdge),
+      uEdgeTransition: new Uniform(0),
       uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
     }),
-    [
-      store.tableLength,
-      store.tableWidth,
-      store.insetBottom,
-      store.insetTop,
-      store.tableSteps,
-      store.tableThickness,
-      store.verticalEdgeThickness,
-      store.tableColor,
-      store.shift,
-      store.currentEdge,
-      store.previousEdge,
-    ]
+    []
   );
+
+  useEffect(() => {
+    uniforms.uLength.value = store.tableLength;
+    uniforms.uWidth.value = store.tableWidth;
+    uniforms.uHeight.value = store.tableThickness;
+    uniforms.uSteps.value = store.tableSteps;
+    uniforms.uInsetBottom.value = store.insetBottom;
+    uniforms.uInsetTop.value = store.insetTop;
+    uniforms.uShift.value = store.shift;
+    uniforms.uColor.value = new Color(store.tableColor);
+    uniforms.uColorPrevious.value = new Color(store.tableColorPrevious);
+    uniforms.uCurrentEdge.value = store.currentEdge;
+    uniforms.uPreviousEdge.value = store.previousEdge;
+    uniforms.uVerticalEdgeThickness.value = store.verticalEdgeThickness;
+  }, [store]);
+
+  useEffect(() => {
+    gsap.fromTo(
+      uniforms.uColorTransition,
+      { value: 0 },
+      {
+        value: 1,
+        duration: 1,
+        ease: "linear",
+      }
+    );
+  }, [store.tableColor]);
+
+  useEffect(() => {
+    gsap.fromTo(
+      uniforms.uEdgeTransition,
+      { value: 0 },
+      {
+        value: 1,
+        duration: 1,
+        ease: "linear",
+      }
+    );
+  }, [store.currentEdge]);
 
   // get normal direction for inwards polygon offset
   useEffect(() => {

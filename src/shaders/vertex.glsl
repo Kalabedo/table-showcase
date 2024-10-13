@@ -13,6 +13,9 @@ uniform float uInsetTop;
 uniform float uInsetBottom;
 uniform float uVerticalEdgeThickness;
 uniform float uShift;
+uniform float uCurrentEdge;
+uniform float uPreviousEdge;
+uniform float uEdgeTransition;
 
 #include "/src/shaders/edges.glsl"
 
@@ -32,13 +35,19 @@ void main(){
   vec3 positionA = csm_Position + tangent.xyz * shift;
   vec3 positionB = csm_Position + biTangent.xyz * shift;
 
+  vec2 edgePositionTransition = mix(getOffsetPosition(csm_Position,uHeight,uSteps,uPreviousEdge),getOffsetPosition(csm_Position,uHeight,uSteps,uCurrentEdge),uEdgeTransition);
+  vec2 vUvTransition = mix(alignUVsAfterOffset(vUv,vCustomNormal,uPreviousEdge),alignUVsAfterOffset(vUv,vCustomNormal,uCurrentEdge),uEdgeTransition);
+
   // create edge + align uv's again
-  csm_Position.xy += getOffsetPosition(csm_Position,uHeight,uSteps);
-  vUv = alignUVsAfterOffset(vUv,vCustomNormal);
+  csm_Position.xy += edgePositionTransition;
+  vUv = vUvTransition;
 
   // neighbours offset edge
-  positionA.xy += getOffsetPosition(positionA,uHeight,uSteps);
-  positionB.xy += getOffsetPosition(positionB,uHeight,uSteps);
+  vec2 edgePositionATransition = mix(getOffsetPosition(positionA,uHeight,uSteps,uPreviousEdge),getOffsetPosition(positionA,uHeight,uSteps,uCurrentEdge),uEdgeTransition);
+  vec2 edgePositionBTransition = mix(getOffsetPosition(positionB,uHeight,uSteps,uPreviousEdge),getOffsetPosition(positionB,uHeight,uSteps,uCurrentEdge),uEdgeTransition);
+
+  positionA.xy += edgePositionATransition;
+  positionB.xy += edgePositionBTransition;
 
   vPosition = position; 
   vNormal2D = normal2D.xy;

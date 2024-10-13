@@ -16,6 +16,8 @@ interface Tablestate {
   tableRoughness: number;
   tableNormalSCale: number;
   tableColor: string;
+  tableColorPrevious: string;
+  tabletColorTransition: number;
   shift: number;
   currentEdge: number;
   previousEdge: number;
@@ -39,7 +41,9 @@ export const useTableStore = create<Tablestate>()((set) => ({
   verticalEdgeThickness: 0.02,
   tableRoughness: 0.7,
   tableNormalSCale: 0.3,
-  tableColor: "#fff",
+  tableColor: "#ffc494",
+  tableColorPrevious: "#ffc494",
+  tabletColorTransition: 0,
   shift: 0.001,
   currentEdge: 0,
   previousEdge: 0,
