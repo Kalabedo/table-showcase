@@ -28,7 +28,7 @@ interface Tablestate {
 
 export const useTableStore = create<Tablestate>()((set) => ({
   tableShape: "oval",
-  tableLength: 2,
+  tableLength: 2.4,
   tableWidth: 1,
   tableDiameter: 1,
   tablecornerRadius: 0,

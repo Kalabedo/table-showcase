@@ -6,7 +6,7 @@ export const useLevaDebug = () => {
 
   useControls("tabletop", {
     length: {
-      value: 2,
+      value: 2.4,
       min: 0,
       max: 3,
       step: 0.1,

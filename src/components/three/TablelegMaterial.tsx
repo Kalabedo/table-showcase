@@ -34,7 +34,7 @@ export const TablelegMaterial = () => {
       {
         value: 1,
         duration: 1,
-        delay: 0.6,
+        delay: 0.4,
         ease: "linear",
       }
     );
