@@ -35,7 +35,7 @@ export const useLevaDebug = () => {
     },
 
     thickness: {
-      value: 0.04,
+      value: 0.03,
       min: 0,
       max: 1,
       step: 0.01,
@@ -74,7 +74,7 @@ export const useLevaDebug = () => {
     },
 
     verticalEdgeThickness: {
-      value: 0.02,
+      value: 0.01,
       min: 0,
       max: 0.05,
       step: 0.001,
