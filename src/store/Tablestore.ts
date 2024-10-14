@@ -33,7 +33,7 @@ export const useTableStore = create<Tablestate>()((set) => ({
   tableDiameter: 1,
   tablecornerRadius: 0,
   tableMaterial: "color.jpg",
-  tableThickness: 0.03,
+  tableThickness: 0.04,
   tableSteps: 40,
   wireframe: false,
   insetBottom: 2,

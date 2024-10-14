@@ -10,42 +10,69 @@ import gsap from "gsap";
 
 export const TabletopMaterial = () => {
   const maps = useMaterial();
-  const store = useTableStore();
+  const {
+    tableLength,
+    tableWidth,
+    tableThickness,
+    tableSteps,
+    insetBottom,
+    shift,
+    tableColor,
+    tableColorPrevious,
+    currentEdge,
+    previousEdge,
+    verticalEdgeThickness,
+    insetTop,
+    wireframe,
+  } = useTableStore();
 
   const uniforms = useMemo(
     () => ({
-      uLength: new Uniform(store.tableLength),
-      uWidth: new Uniform(store.tableWidth),
-      uHeight: new Uniform(store.tableThickness),
-      uSteps: new Uniform(store.tableSteps),
-      uInsetBottom: new Uniform(store.insetBottom),
-      uInsetTop: new Uniform(store.insetTop),
-      uShift: new Uniform(store.shift),
-      uColor: new Uniform(new Color(store.tableColor)),
-      uColorPrevious: new Uniform(new Color(store.tableColorPrevious)),
+      uLength: new Uniform(tableLength),
+      uWidth: new Uniform(tableWidth),
+      uHeight: new Uniform(tableThickness),
+      uSteps: new Uniform(tableSteps),
+      uInsetBottom: new Uniform(insetBottom),
+      uInsetTop: new Uniform(insetTop),
+      uShift: new Uniform(shift),
+      uColor: new Uniform(new Color(tableColor)),
+      uColorPrevious: new Uniform(new Color(tableColorPrevious)),
       uColorTransition: new Uniform(0),
-      uCurrentEdge: new Uniform(store.currentEdge),
-      uPreviousEdge: new Uniform(store.previousEdge),
+      uCurrentEdge: new Uniform(currentEdge),
+      uPreviousEdge: new Uniform(previousEdge),
       uEdgeTransition: new Uniform(0),
-      uVerticalEdgeThickness: new Uniform(store.verticalEdgeThickness),
+      uVerticalEdgeThickness: new Uniform(verticalEdgeThickness),
     }),
     []
   );
 
   useEffect(() => {
-    uniforms.uLength.value = store.tableLength;
-    uniforms.uWidth.value = store.tableWidth;
-    uniforms.uHeight.value = store.tableThickness;
-    uniforms.uSteps.value = store.tableSteps;
-    uniforms.uInsetBottom.value = store.insetBottom;
-    uniforms.uInsetTop.value = store.insetTop;
-    uniforms.uShift.value = store.shift;
-    uniforms.uColor.value = new Color(store.tableColor);
-    uniforms.uColorPrevious.value = new Color(store.tableColorPrevious);
-    uniforms.uCurrentEdge.value = store.currentEdge;
-    uniforms.uPreviousEdge.value = store.previousEdge;
-    uniforms.uVerticalEdgeThickness.value = store.verticalEdgeThickness;
-  }, [store]);
+    uniforms.uLength.value = tableLength;
+    uniforms.uWidth.value = tableWidth;
+    uniforms.uHeight.value = tableThickness;
+    uniforms.uSteps.value = tableSteps;
+    uniforms.uInsetBottom.value = insetBottom;
+    uniforms.uInsetTop.value = insetTop;
+    uniforms.uShift.value = shift;
+    uniforms.uColor.value = new Color(tableColor);
+    uniforms.uColorPrevious.value = new Color(tableColorPrevious);
+    uniforms.uCurrentEdge.value = currentEdge;
+    uniforms.uPreviousEdge.value = previousEdge;
+    uniforms.uVerticalEdgeThickness.value = verticalEdgeThickness;
+  }, [
+    tableLength,
+    tableWidth,
+    tableThickness,
+    tableSteps,
+    insetBottom,
+    insetTop,
+    shift,
+    tableColor,
+    tableColorPrevious,
+    currentEdge,
+    previousEdge,
+    verticalEdgeThickness,
+  ]);
 
   useEffect(() => {
     gsap.fromTo(
@@ -57,7 +84,7 @@ export const TabletopMaterial = () => {
         ease: "linear",
       }
     );
-  }, [store.tableColor]);
+  }, [tableColor]);
 
   useEffect(() => {
     gsap.fromTo(
@@ -69,7 +96,7 @@ export const TabletopMaterial = () => {
         ease: "linear",
       }
     );
-  }, [store.currentEdge]);
+  }, [currentEdge]);
 
   return (
     <ThreeCustomShaderMaterial
@@ -78,7 +105,7 @@ export const TabletopMaterial = () => {
       vertexShader={vertex}
       fragmentShader={fragment}
       uniforms={uniforms}
-      wireframe={store.wireframe}
+      wireframe={wireframe}
       patchMap={{
         "*": {
           "#include <normal_fragment_maps>": `#ifdef USE_NORMALMAP_OBJECTSPACE

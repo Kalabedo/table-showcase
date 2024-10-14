@@ -1,6 +1,7 @@
 import { Shapes } from "@/types/types";
-import { Vector2 } from "three";
+import { ExtrudeGeometry, Shape, Vector2 } from "three";
 import { useTableStore } from "../store/Tablestore";
+import { useMemo } from "react";
 
 export const useShape = (shape: Shapes) => {
   const store = useTableStore();
@@ -13,7 +14,16 @@ export const useShape = (shape: Shapes) => {
     ellipse: getEllipsePoints,
   };
 
-  return shapes[shape];
+  // return shapes[shape];
+
+  const extrude = useMemo(() => {
+    const choosenShape = shapes[shape];
+    const points = choosenShape();
+    return new ExtrudeGeometry(new Shape(points), { bevelEnabled: false, depth: store.tableThickness, steps: store.tableSteps });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.tableLength, store.tableWidth]);
+
+  return extrude;
 
   function getCirclePoints(radius: number = store.tableDiameter / 2, segments: number = 128): Vector2[] {
     const points: Vector2[] = [];
