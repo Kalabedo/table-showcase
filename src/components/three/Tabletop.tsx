@@ -3,13 +3,20 @@ import { BufferAttribute, ExtrudeGeometry, Mesh } from "three";
 import { FC, useEffect, useRef } from "react";
 import { useShape } from "@/hooks/useShape";
 import { PointOffset, Shapes } from "@/types/types";
-import { makeOffsetPoly, orderPointsByProximity, seamlessUVs } from "@/lib/functions";
+import {
+  makeOffsetPoly,
+  orderPointsByProximity,
+  seamlessUVs,
+} from "@/lib/functions";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { useTableStore } from "../../store/Tablestore";
 import { TabletopMaterial } from "./TabletopMaterial";
 import { motion } from "framer-motion-3d";
 
-export const Tabletop: FC<{ tableShape: Shapes; positionZ: number }> = ({ tableShape, positionZ }) => {
+export const Tabletop: FC<{ tableShape: Shapes; positionZ: number }> = ({
+  tableShape,
+  positionZ,
+}) => {
   const tableRef = useRef<Mesh>(null);
   const extrudeRef = useRef<ExtrudeGeometry>(null);
   const store = useTableStore();
@@ -57,14 +64,23 @@ export const Tabletop: FC<{ tableShape: Shapes; positionZ: number }> = ({ tableS
       for (let i = 0; i < vertexNormals.length; i = i + 3) {
         const posX = positions[i + 0];
         const posY = positions[i + 1];
-        const nor = offsetData.find((offset) => offset.pos.x === posX && offset.pos.y === posY)?.nor;
+        const nor = offsetData.find(
+          (offset) => offset.pos.x === posX && offset.pos.y === posY
+        )?.nor;
         vertexNormals[i + 0] = tableShape === "rectangle" ? -nor!.x : nor!.x;
         vertexNormals[i + 1] = tableShape === "rectangle" ? -nor!.y : nor!.y;
         vertexNormals[i + 2] = 0;
       }
-      tableRef.current.geometry.setAttribute("normal2D", new BufferAttribute(vertexNormals, 3));
+      tableRef.current.geometry.setAttribute(
+        "normal2D",
+        new BufferAttribute(vertexNormals, 3)
+      );
       cubes.current = offsetData;
-      seamlessUVs(tableRef.current.geometry, store.tableLength * 0.5, store.tableWidth * 0.5);
+      seamlessUVs(
+        tableRef.current.geometry,
+        store.tableLength * 0.5,
+        store.tableWidth * 0.5
+      );
       // console.log("init", tableRef.current);
     }
   }, [store.tableLength, store.tableWidth]);
